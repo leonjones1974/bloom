@@ -1,9 +1,9 @@
 package uk.camsw.bloom
 
 import org.scalacheck._
-import uk.camsw.bloom.Bloom._
 
 import scala.collection.immutable.BitSet
+import BitSetImplicits._
 
 /**
   * TODO: LJ - Cats appears to provide a test framework for the monoid laws.

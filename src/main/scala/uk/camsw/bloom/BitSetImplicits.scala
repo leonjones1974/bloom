@@ -1,15 +1,10 @@
 package uk.camsw.bloom
 
+import cats._
 
-import cats.Monoid
+import scala.collection.immutable.BitSet
 
-import scala.collection.BitSet
-
-case class Bloom(slots: BitSet) {
-
-}
-
-object Bloom {
+object BitSetImplicits {
 
   implicit val bitSetMonoid = new Monoid[BitSet] {
     val empty: BitSet = BitSet()
@@ -21,5 +16,3 @@ object Bloom {
     def combine(bs2: BitSet): BitSet = bitSetMonoid.combine(bs1, bs2)
   }
 }
-
-
