@@ -7,7 +7,11 @@ resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repos
 
 (testOptions in Test) += Tests.Argument(TestFrameworks.ScalaTest, "-h", "target/scalatest-report")
 
-libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.2" % "test"
+
+libraryDependencies += "org.typelevel" % "cats-core_2.11" % "1.0.0-MF"
+
 libraryDependencies += "org.pegdown" % "pegdown" % "1.0.2" % "test"
+libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.6" % "test"
+libraryDependencies += "org.scalacheck" %% "scalacheck" % "1.12.6" % "test"
 
 
