@@ -15,7 +15,3 @@ Tag it with @wip
 - Set glue to `uk.camsw.bloom.acceptance`
 
 
-
-
-
-
