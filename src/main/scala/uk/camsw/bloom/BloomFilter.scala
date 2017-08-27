@@ -16,7 +16,8 @@ case object Possibly extends Contains
 case object No extends Contains
 
 
-case class BloomFilter private[bloom](fHash: Seq[String => Int], slots: BitSet = BitSet()) {
+case class BloomFilter private[bloom](private[bloom] val fHash: Seq[String => Int],
+                                      private[bloom] val slots: BitSet = BitSet()) {
 
   def +[A](obj: A)(implicit k: Key[A]): BloomFilter = {
     val key = k(obj)
