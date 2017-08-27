@@ -6,9 +6,7 @@ version := "1.0.0-SNAPSHOT"
 resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
 resolvers ++= Seq("jBCrypt Repository" at "http://repo1.maven.org/maven2/org/")
 
-
 (testOptions in Test) += Tests.Argument(TestFrameworks.ScalaTest, "-h", "target/scalatest-report")
-
 
 libraryDependencies += "org.typelevel" % "cats-core_2.11" % "1.0.0-MF"
 libraryDependencies += "com.roundeights" % "hasher_2.11" % "1.2.0"

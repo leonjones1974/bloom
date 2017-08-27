@@ -11,9 +11,7 @@ import scala.collection.immutable.BitSet
 class BitSetMonoidTest extends PropertyDrivenTest {
 
   property("the zero identity is the empty bit set") {
-    forAll(emptyBitSet) {
-      _ shouldBe BitSet.empty
-    }
+    bitSetMonoid.empty shouldBe BitSet()
   }
 
   property("the combination of 2 bit sets should be a bitwise OR") {
@@ -25,13 +23,13 @@ class BitSetMonoidTest extends PropertyDrivenTest {
   }
 
   property("left identity + x == x") {
-    forAll(emptyBitSet, randomBitSet) { (emptyBs, bs1) =>
-      (bs1 combine emptyBs) shouldBe bs1
+    forAll(randomBitSet) { (bs1) =>
+      (BitSet() combine bs1) shouldBe bs1
     }
   }
   property("x + right identity == x") {
-    forAll(randomBitSet, emptyBitSet) { (bs1, emptyBs) =>
-      (bs1 combine emptyBs) shouldBe bs1
+    forAll(randomBitSet) { (bs1) =>
+      (bs1 combine BitSet()) shouldBe bs1
     }
   }
 
