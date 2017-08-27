@@ -40,15 +40,17 @@ package object bloom {
   object CustomMatchers extends CustomMatchers
 
   trait CustomGenerators {
-    def randomString(maxLength: Int): String =
-      math.abs(Random.nextInt(Int.MinValue + 1 max maxLength)).toString
 
     val emptyFilter = BloomFilter()
+    val random = new Random()
 
     def randomStrings: Gen[String] = for {
       n <- Gen.choose(0, 50)
       s <- Gen.listOfN(n, Gen.alphaChar).map(_.mkString)
     } yield s
+
+    def listOfRandomStrings(n: Int) =
+      Gen.listOfN(n, randomStrings)
 
     val emptyBitSet = Gen.const(BitSet.empty)
 
@@ -62,30 +64,9 @@ package object bloom {
       max <- Gen.choose(1001, Int.MaxValue)
     } yield Range(min, max))
 
-    def algos: Gen[Algo] = Gen.oneOf(md5, crc32, sha1, sha384, bcrypt)
+    implicit val algos: Arbitrary[Algo] = Arbitrary(Gen.oneOf(md5, crc32, sha1, sha384))
+
   }
-
-  /**
-    *  def md5 = withAlgo( new Algo( () => new MessageDigest("MD5") ) )
-
-    /** SHA1 hashing algorithm */
-    def sha1 = withAlgo( new Algo( () => new MessageDigest("SHA-1") ) )
-
-    /** SHA256 hashing algorithm */
-    def sha256 = withAlgo( new Algo( () => new MessageDigest("SHA-256") ) )
-
-    /** SHA384 hashing algorithm */
-    def sha384 = withAlgo( new Algo( () => new MessageDigest("SHA-384") ) )
-
-    /** sha512 hashing algorithm */
-    def sha512 = withAlgo( new Algo( () => new MessageDigest("SHA-512") ) )
-
-    /** CRC32 algorithm */
-    def crc32 = withAlgo( new Algo( () => new CRC32Digest ) )
-
-    /** BCrypt hashing, using 10 rounds */
-    def bcrypt = withAlgo( new Algo( () => new BCryptDigest(10) ) )
-    */
 
   object CustomGenerators extends CustomGenerators
 }

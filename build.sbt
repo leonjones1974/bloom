@@ -12,7 +12,6 @@ resolvers ++= Seq("jBCrypt Repository" at "http://repo1.maven.org/maven2/org/")
 
 libraryDependencies += "org.typelevel" % "cats-core_2.11" % "1.0.0-MF"
 libraryDependencies += "com.roundeights" % "hasher_2.11" % "1.2.0"
-libraryDependencies ++= Seq("org.mindrot" % "jbcrypt" % "0.3m")
 
 libraryDependencies += "org.pegdown" % "pegdown" % "1.0.2" % "test"
 libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.6" % "test"
