@@ -17,4 +17,5 @@ class BloomFilterTest extends PropertyDrivenTest {
     val updated = BloomFilter(Seq(hashN(1), hashN(2))) + "aValue"
     updated.slots(1) && updated.slots(2) shouldBe true
   }
+
 }
