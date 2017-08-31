@@ -1,6 +1,6 @@
 package uk.camsw.bloom
 
-import uk.camsw.bloom.BitSetImplicits._
+import uk.camsw.bloom.Implicits._
 
 import scala.collection.immutable.BitSet
 
@@ -18,7 +18,7 @@ import scala.collection.immutable.BitSet
   * TODO: LJ - Cats appears to provide a test framework for the monoid laws.
   * Return to this and work out what that classpath needs to look like
   */
-class BitSetMonoidTest extends PropertyDrivenTest {
+class BitSetMonoidProperties extends PropertyChecks {
 
   property("the zero identity is the empty bit set") {
     bitSetMonoid.empty shouldBe BitSet()

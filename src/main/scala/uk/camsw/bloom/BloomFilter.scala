@@ -23,7 +23,6 @@ case object No extends Contains
 case class BloomFilter private[bloom](private[bloom] val fHash: Seq[String => Int],
                                       private[bloom] val slots: BitSet = BitSet()) {
 
-
   def +[A](obj: A)(implicit k: Key[A]): BloomFilter = {
     val key = k(obj)
     copy(slots = fHash.foldLeft(slots)((bs, f) => bs |+| BitSet(f(key))))

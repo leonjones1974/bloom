@@ -1,15 +1,10 @@
 package uk.camsw.bloom
 
-import com.roundeights.hasher.Algo
-
-class BloomFilterTest extends PropertyDrivenTest {
-
-  val simpleHash = HashFunction.boundedHash(Algo.md5, 0 to 10000)
-  val hashN: Int => String => Int = n => _ => n
+class BloomFilterProperties extends PropertyChecks {
 
   property("the filter should indicate possible inclusion for all added values") {
     forAll() { (s: String) =>
-      BloomFilter(Seq(simpleHash)) + s should possiblyContain(s)
+      BloomFilter(Seq(simpleHash(10000))) + s should possiblyContain(s)
     }
   }
 

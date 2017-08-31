@@ -4,14 +4,19 @@ import com.roundeights.hasher.Algo
 import org.scalacheck.{Arbitrary, Gen}
 import org.scalatest.matchers.{MatchResult, Matcher}
 import org.scalatest.prop.{Checkers, GeneratorDrivenPropertyChecks}
-import org.scalatest.{Matchers, PropSpec}
+import org.scalatest.{FunSpec, Matchers, PropSpec}
 
 import scala.collection.immutable.BitSet
 import scala.util.Random
 
 package object bloom {
 
-  trait PropertyDrivenTest extends PropSpec
+  trait Spec extends FunSpec
+    with Matchers
+    with CustomMatchers
+    with CustomGenerators
+
+  trait PropertyChecks extends PropSpec
     with Matchers
     with GeneratorDrivenPropertyChecks
     with Checkers
@@ -27,7 +32,7 @@ package object bloom {
   trait CustomMatchers {
 
     class FilterPossiblyContains(expected: String) extends Matcher[BloomFilter] {
-      def apply(left: BloomFilter) = {
+      def apply(left: BloomFilter): MatchResult = {
         MatchResult(
           (left contains expected) == Possibly,
           s"""Bloom filter does not contain "$expected"""",
@@ -48,7 +53,7 @@ package object bloom {
       s <- Gen.listOfN(n, Gen.alphaChar).map(_.mkString)
     } yield s
 
-    def listOfRandomStrings(n: Int) =
+    def listOfRandomStrings(n: Int): Gen[List[String]] =
       Gen.listOfN(n, randomStrings)
 
     def randomBitSet: Gen[BitSet] = for {
@@ -61,8 +66,14 @@ package object bloom {
       max <- Gen.choose(1001, Int.MaxValue)
     } yield Range(min, max))
 
+    val hashN: Int => String => Int = n => _ => n
+
+    def simpleHash(size: Int, algo: Algo = Algo.md5) = HashFunction.boundedHash(algo, 0 until size)
+
+
     implicit val algos: Arbitrary[Algo] = Arbitrary(Gen.oneOf(BloomFilter.HashingAlgos.toSeq))
   }
 
   object CustomGenerators extends CustomGenerators
+
 }

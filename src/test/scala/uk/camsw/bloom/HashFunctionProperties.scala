@@ -3,7 +3,7 @@ package uk.camsw.bloom
 import com.roundeights.hasher.Algo
 import uk.camsw.bloom.HashFunction._
 
-class HashFunctionTest extends PropertyDrivenTest {
+class HashFunctionProperties extends PropertyChecks {
 
   property("bound transforms any integer to be within bounds") {
     forAll { (n: Int, r: Range) =>

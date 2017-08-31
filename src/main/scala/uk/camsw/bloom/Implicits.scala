@@ -4,7 +4,7 @@ import cats.kernel.Monoid
 
 import scala.collection.immutable.BitSet
 
-object BitSetImplicits {
+object Implicits {
 
   implicit val bitSetMonoid: Monoid[BitSet] = new Monoid[BitSet] {
     val empty: BitSet = BitSet()
