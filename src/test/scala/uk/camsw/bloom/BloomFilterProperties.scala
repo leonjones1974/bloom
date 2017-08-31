@@ -22,4 +22,5 @@ class BloomFilterProperties extends PropertyChecks {
       whenever(size <= 0) {intercept[IllegalArgumentException]{BloomFilter(size, Set(algo))}}
     }
   }
+
 }

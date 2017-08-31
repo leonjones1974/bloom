@@ -28,7 +28,7 @@ case class BloomFilter private[bloom](private[bloom] val fHash: Seq[String => In
     copy(slots = fHash.foldLeft(slots)((bs, f) => bs |+| BitSet(f(key))))
   }
 
-  def contains(key: String): Contains = if (fHash.forall(f => slots(f(key)))) Possibly else No
+  def contains[A](key: A)(implicit k: Key[A]): Contains = if (fHash.forall(f => slots(f(k(key))))) Possibly else No
 }
 
 object BloomFilter {
@@ -37,6 +37,7 @@ object BloomFilter {
 
   def apply(size: Int, algos: Set[Algo]): BloomFilter = {
     require(size > 0, "Size must be greater than zero")
+
     val fHash = algos.map(algo => boundedHash(algo, 0 until size))
     new BloomFilter(fHash.toSeq)
   }

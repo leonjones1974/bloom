@@ -5,11 +5,17 @@ import org.scalacheck.{Arbitrary, Gen}
 import org.scalatest.matchers.{MatchResult, Matcher}
 import org.scalatest.prop.{Checkers, GeneratorDrivenPropertyChecks}
 import org.scalatest.{FunSpec, Matchers, PropSpec}
+import uk.camsw.bloom.BloomFilter.HashingAlgos
+import uk.camsw.bloom.Key.Key
 
 import scala.collection.immutable.BitSet
 import scala.util.Random
 
 package object bloom {
+
+  val random = new Random()
+  val emptyBitSet = BitSet()
+  def aBloomFilter(size: Int = 1000) = BloomFilter(size, HashingAlgos)
 
   trait Spec extends FunSpec
     with Matchers
@@ -25,13 +31,11 @@ package object bloom {
 
     implicit override val generatorDrivenConfig = PropertyCheckConfig(maxDiscarded = 500)
 
-    val random = new Random()
-    val emptyBitSet = BitSet()
   }
 
   trait CustomMatchers {
 
-    class FilterPossiblyContains(expected: String) extends Matcher[BloomFilter] {
+    class FilterPossiblyContains[A](expected: A)(implicit k: Key[A]) extends Matcher[BloomFilter] {
       def apply(left: BloomFilter): MatchResult = {
         MatchResult(
           (left contains expected) == Possibly,
@@ -41,7 +45,7 @@ package object bloom {
       }
     }
 
-    def possiblyContain(expected: String) = new FilterPossiblyContains(expected)
+    def possiblyContain[A](expected: A)(implicit k: Key[A]) = new FilterPossiblyContains(expected)
   }
 
   object CustomMatchers extends CustomMatchers
@@ -71,7 +75,7 @@ package object bloom {
     def simpleHash(size: Int, algo: Algo = Algo.md5) = HashFunction.boundedHash(algo, 0 until size)
 
 
-    implicit val algos: Arbitrary[Algo] = Arbitrary(Gen.oneOf(BloomFilter.HashingAlgos.toSeq))
+    implicit val algos: Arbitrary[Algo] = Arbitrary(Gen.oneOf(HashingAlgos.toSeq))
   }
 
   object CustomGenerators extends CustomGenerators
