@@ -36,6 +36,7 @@ object BloomFilter {
   val HashingAlgos = Set(md5, crc32, sha1)
 
   def apply(size: Int, algos: Set[Algo]): BloomFilter = {
+    require(size > 0, "Size must be greater than zero")
     val fHash = algos.map(algo => boundedHash(algo, 0 until size))
     new BloomFilter(fHash.toSeq)
   }

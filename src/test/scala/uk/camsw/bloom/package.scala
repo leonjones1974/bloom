@@ -23,7 +23,7 @@ package object bloom {
     with CustomGenerators
     with CustomMatchers {
 
-    implicit override val generatorDrivenConfig = PropertyCheckConfig(maxDiscarded = 0)
+    implicit override val generatorDrivenConfig = PropertyCheckConfig(maxDiscarded = 500)
 
     val random = new Random()
     val emptyBitSet = BitSet()
