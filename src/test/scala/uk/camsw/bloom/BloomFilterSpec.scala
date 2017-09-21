@@ -11,8 +11,8 @@ class BloomFilterSpec extends Spec {
   describe("Bloom Filter") {
 
     it("can be used with members of key") {
-      aBloomFilter() + employee should possiblyContain(employee.id)
-      aBloomFilter() + employee should possiblyContain(employee)
+      aBloomFilter() + employee should possiblyContain[Employee, Int](employee.id)
+      aBloomFilter() + employee should possiblyContain[Employee, Employee](employee)
     }
   }
 }

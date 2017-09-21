@@ -7,7 +7,7 @@ class BloomFilterProperties extends PropertyChecks {
   property("the filter should indicate possible inclusion for all added values") {
     forAll() { (size: Int, algo: Algo, s: String) =>
       whenever(size > 0) {
-        BloomFilter(size, Set(algo)) + s should possiblyContain(s)
+        BloomFilter(size, Set(algo)) + s should possiblyContain[String, String](s)
       }
     }
   }

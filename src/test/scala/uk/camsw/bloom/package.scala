@@ -15,7 +15,7 @@ package object bloom {
 
   val random = new Random()
   val emptyBitSet = BitSet()
-  def aBloomFilter(size: Int = 1000) = BloomFilter(size, HashingAlgos)
+  def aBloomFilter[A](size: Int = 1000) = BloomFilter[A](size, HashingAlgos)
 
   trait Spec extends FunSpec
     with Matchers
@@ -35,8 +35,8 @@ package object bloom {
 
   trait CustomMatchers {
 
-    class FilterPossiblyContains[A](expected: A)(implicit k: Key[A]) extends Matcher[BloomFilter] {
-      def apply(left: BloomFilter): MatchResult = {
+    class FilterPossiblyContains[A, B](expected: B)(implicit k: Key[B]) extends Matcher[BloomFilter[A]] {
+      def apply(left: BloomFilter[A]): MatchResult = {
         MatchResult(
           (left contains expected) == Possibly,
           s"""Bloom filter does not contain "$expected"""",
@@ -45,7 +45,7 @@ package object bloom {
       }
     }
 
-    def possiblyContain[A](expected: A)(implicit k: Key[A]) = new FilterPossiblyContains(expected)
+    def possiblyContain[A, B](expected: B)(implicit k: Key[B]) = new FilterPossiblyContains[A, B](expected)
   }
 
   object CustomMatchers extends CustomMatchers
