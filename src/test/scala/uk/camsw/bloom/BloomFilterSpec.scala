@@ -11,8 +11,15 @@ class BloomFilterSpec extends Spec {
   describe("Bloom Filter") {
 
     it("can be used with members of key") {
-      aBloomFilter() + employee should possiblyContain[Employee, Int](employee.id)
-      aBloomFilter() + employee should possiblyContain[Employee, Employee](employee)
+      aBloomFilter() + employee should possiblyContain[Employee](employee.id)
+      aBloomFilter() + employee should possiblyContain[Employee](employee)
     }
+
+//    it("can be used in a monadic fashion") {
+//      val f = aBloomFilter[String]()
+//      for {
+//        k <- f contains "abc"
+//      } yield k
+//    }
   }
 }

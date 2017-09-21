@@ -10,17 +10,6 @@ import Implicits._
 
 import scala.collection.immutable.BitSet
 
-
-/**
-  * TODO: Replace these with applicatives, such that we can create a list of Id's to retrieve from store
-  */
-sealed trait Contains
-
-case object Possibly extends Contains
-
-case object No extends Contains
-
-
 case class BloomFilter[A] private[bloom](private[bloom] val fHash: Seq[String => Int],
                                       private[bloom] val slots: BitSet = BitSet()) {
 
@@ -29,7 +18,7 @@ case class BloomFilter[A] private[bloom](private[bloom] val fHash: Seq[String =>
     copy(slots = fHash.foldLeft(slots)((bs, f) => bs |+| BitSet(f(key))))
   }
 
-  def contains[B](key: B)(implicit k: Key[B]): Contains = if (fHash.forall(f => slots(f(k(key))))) Possibly else No
+  def contains[B](key: String): Contains = if (fHash.forall(hash => slots(hash(key)))) Possibly else No
 }
 
 object BloomFilter {
