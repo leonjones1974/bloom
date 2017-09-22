@@ -1,25 +1,24 @@
 package uk.camsw.bloom
 
 
+import cats.syntax.semigroup._
 import com.roundeights.hasher.Algo
 import com.roundeights.hasher.Algo._
 import uk.camsw.bloom.HashFunction.boundedHash
-import uk.camsw.bloom.Key.Key
-import cats.syntax.semigroup._
-import Implicits._
+import uk.camsw.bloom.Implicits._
 
 import scala.collection.immutable.BitSet
 
-case class BloomFilter[A] private[bloom](private[bloom] val fHash: Seq[String => Int],
-                                      private[bloom] val slots: BitSet = BitSet()) {
+case class BloomFilter[A] private[bloom](
+                                             private[bloom] val fHash: Seq[String => Int],
+                                             private[bloom] val slots: BitSet = BitSet()) {
 
   def :+(obj: A)(implicit k: Key[A]): BloomFilter[A] = {
     val key = k(obj)
     copy(slots = fHash.foldLeft(slots)((bs, f) => bs |+| BitSet(f(key))))
   }
 
-  def find(key: String): Contains[String] = if (fHash.forall(hash => slots(hash(key)))) Possibly(key) else No
-
+  def find[B](key: B)(implicit k: Key[B]): Contains[B] = if (fHash.forall(hash => slots(hash(k(key))))) Possibly(key) else No
 }
 
 object BloomFilter {

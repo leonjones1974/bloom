@@ -1,16 +1,7 @@
 package uk.camsw.bloom
 
-import uk.camsw.bloom.Implicits._
-
-import scala.collection.immutable.BitSet
-
-
-import cats.kernel.Monoid
 import cats.implicits._
-import com.roundeights.hasher.Algo
-import com.roundeights.hasher.Algo._
-import uk.camsw.bloom.HashFunction.boundedHash
-import uk.camsw.bloom.Key.Key
+import uk.camsw.bloom.Implicits._
 
 import scala.collection.immutable.BitSet
 
