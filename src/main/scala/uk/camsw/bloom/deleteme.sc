@@ -18,11 +18,14 @@ Option.empty[Int].map(_ * 36)
 //  x <- xs if x.isDefined
 //} yield x
 
-val ys = List(Possibly(10), No: Contains[Int])
-val yys = for {
-  y <- Possibly(10)
+//val ys = List(Possibly(10), No: Contains[Int])
+//val yys = for {
+//  y <- Possibly(10)
+//
+//} yield y
+import cats.syntax.option._
+none
 
-} yield y
 
 
 

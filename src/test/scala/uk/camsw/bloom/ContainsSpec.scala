@@ -1,14 +1,21 @@
 package uk.camsw.bloom
 
+import uk.camsw.bloom.syntax.contains.{no => nope, _}
+
 class ContainsSpec extends Spec {
 
   describe("Contains") {
+
     it("should contain a convenience possibly") {
-      Contains.possibly(5) shouldBe Possibly(5)
+      possibly(5) shouldBe Possibly(5)
     }
 
     it("should contain a convenience no") {
-      Contains.no[Int] shouldBe No
+      nope[Int] shouldBe No
+    }
+
+    it("should introduce creation syntax") {
+      1.possibly shouldBe possibly(1)
     }
   }
 }

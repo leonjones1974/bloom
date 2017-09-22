@@ -13,12 +13,13 @@ import scala.collection.immutable.BitSet
 case class BloomFilter[A] private[bloom](private[bloom] val fHash: Seq[String => Int],
                                       private[bloom] val slots: BitSet = BitSet()) {
 
-  def +(obj: A)(implicit k: Key[A]): BloomFilter[A] = {
+  def :+(obj: A)(implicit k: Key[A]): BloomFilter[A] = {
     val key = k(obj)
     copy(slots = fHash.foldLeft(slots)((bs, f) => bs |+| BitSet(f(key))))
   }
 
-  def contains[B](key: String): Contains[B] = ??? //if (fHash.forall(hash => slots(hash(key)))) Possibly else No
+  def find(key: String): Contains[String] = if (fHash.forall(hash => slots(hash(key)))) Possibly(key) else No
+
 }
 
 object BloomFilter {

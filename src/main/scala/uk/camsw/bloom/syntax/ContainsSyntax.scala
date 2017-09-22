@@ -1,15 +1,16 @@
 package uk.camsw.bloom.syntax
 
-import uk.camsw.bloom.Contains
+import uk.camsw.bloom.{Contains, No, Possibly}
 
 trait ContainsSyntax {
-  final def no[A]: Contains[A] = ???
+  def no[A]: Contains[A] = No
+  def possibly[A](value: A): Contains[A] = Possibly(value)
 
-  implicit final def possiblySyntax[A](a: Contains[A]): ContainsOps[A] = new ContainsOps(a)
-
+  implicit final def possiblyIdSyntax[A](a: A): ContainsIdOps[A] = new ContainsIdOps(a)
 }
 
-class ContainsOps[A](val a: Contains[A]) extends AnyVal {
+class ContainsIdOps[A](val a: A) extends AnyVal {
 
+  def possibly = Possibly(a)
 
 }

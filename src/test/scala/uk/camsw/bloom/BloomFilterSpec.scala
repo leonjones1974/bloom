@@ -11,9 +11,13 @@ class BloomFilterSpec extends Spec {
 
   describe("Bloom Filter") {
 
-    it("can be used with members of key") {
-      aBloomFilter() + employee should possiblyContain[Employee](employee.id)
-      aBloomFilter() + employee should possiblyContain[Employee](employee)
+    it("returns a possibly when a key might exist") {
+      val f = aBloomFilter() :+ employee
+      f.find(employee.id) shouldBe Possibly(employee.id.toString)
+    }
+
+    it("returns no when a key definitely does not exit") {
+      aBloomFilter().find("anything") shouldBe No
     }
   }
 }

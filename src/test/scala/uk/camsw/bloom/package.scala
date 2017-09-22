@@ -6,7 +6,6 @@ import org.scalatest.matchers.{MatchResult, Matcher}
 import org.scalatest.prop.{Checkers, GeneratorDrivenPropertyChecks}
 import org.scalatest.{FunSpec, Matchers, PropSpec}
 import uk.camsw.bloom.BloomFilter.HashingAlgos
-import uk.camsw.bloom.Key.Key
 
 import scala.collection.immutable.BitSet
 import scala.util.Random
@@ -34,18 +33,6 @@ package object bloom {
   }
 
   trait CustomMatchers {
-
-    class FilterPossiblyContains[A](key : String) extends Matcher[BloomFilter[A]] {
-      def apply(left: BloomFilter[A]): MatchResult = {
-        MatchResult(
-          (left contains key) == Possibly,
-          s"""Bloom filter does not contain "$key"""",
-          s"""Bloom filter possibly contains "$key""""
-        )
-      }
-    }
-
-    def possiblyContain[A](key: String)= new FilterPossiblyContains[A](key)
   }
 
   object CustomMatchers extends CustomMatchers
