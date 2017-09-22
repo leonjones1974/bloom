@@ -1,7 +1,6 @@
 package uk.camsw.bloom.syntax
 
-import cats.syntax.{OptionIdOps, OptionOps}
-import uk.camsw.bloom.{Contains, Contains}
+import uk.camsw.bloom.Contains
 
 trait ContainsSyntax {
   final def no[A]: Contains[A] = ???

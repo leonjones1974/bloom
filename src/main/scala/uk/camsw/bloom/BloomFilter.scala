@@ -18,7 +18,7 @@ case class BloomFilter[A] private[bloom](private[bloom] val fHash: Seq[String =>
     copy(slots = fHash.foldLeft(slots)((bs, f) => bs |+| BitSet(f(key))))
   }
 
-  def contains(key: String): Contains = if (fHash.forall(hash => slots(hash(key)))) Possibly else No
+  def contains[B](key: String): Contains[B] = ??? //if (fHash.forall(hash => slots(hash(key)))) Possibly else No
 }
 
 object BloomFilter {
