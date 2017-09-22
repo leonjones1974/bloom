@@ -13,21 +13,21 @@ import uk.camsw.bloom.instances.contains._
 
 class ContainsLaws extends FunSuite with Discipline {
 
-  implicit def arbContains[T](implicit a: Arbitrary[T]): Arbitrary[ContainsA[T]] =
+  implicit def arbContains[T](implicit a: Arbitrary[T]): Arbitrary[Contains[T]] =
     Arbitrary(sized(n =>
       frequency(
-        (n, resize(n / 2, Arbitrary.arbitrary[T]).map(PossiblyA(_))),
-        (1, const(NoA)))))
+        (n, resize(n / 2, Arbitrary.arbitrary[T]).map(Possibly(_))),
+        (1, const(No)))))
 
-  implicit def eqContains[T](implicit t: Eq[T]): Eq[ContainsA[T]] = new Eq[ContainsA[T]] {
-    def eqv(x: ContainsA[T], y: ContainsA[T]): Boolean = (x, y) match {
-      case (NoA, NoA) => true
-      case (PossiblyA(a), PossiblyA(b)) => a == b
+  implicit def eqContains[T](implicit t: Eq[T]): Eq[Contains[T]] = new Eq[Contains[T]] {
+    def eqv(x: Contains[T], y: Contains[T]): Boolean = (x, y) match {
+      case (No, No) => true
+      case (Possibly(a), Possibly(b)) => a == b
       case _ => false
     }
   }
 
-  checkAll("Contains[Int]", ApplicativeTests[ContainsA].applicative[Int, Int, Int])
-  checkAll("Contains[String]", ApplicativeTests[ContainsA].applicative[String, String, String])
+  checkAll("Contains[Int]", ApplicativeTests[Contains].applicative[Int, Int, Int])
+  checkAll("Contains[String]", ApplicativeTests[Contains].applicative[String, String, String])
 
 }
