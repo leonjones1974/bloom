@@ -29,7 +29,7 @@ package object bloom {
     with CustomGenerators
     with CustomMatchers {
 
-    implicit override val generatorDrivenConfig = PropertyCheckConfig(maxDiscarded = 500)
+    implicit override val generatorDrivenConfig = PropertyCheckConfiguration()
 
   }
 

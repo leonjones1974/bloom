@@ -8,12 +8,15 @@ resolvers ++= Seq("jBCrypt Repository" at "http://repo1.maven.org/maven2/org/")
 
 (testOptions in Test) += Tests.Argument(TestFrameworks.ScalaTest, "-h", "target/scalatest-report")
 
-libraryDependencies += "org.typelevel" % "cats-core_2.11" % "0.7.2"
-libraryDependencies += "org.typelevel" % "cats-macros_2.11" % "0.7.2"
-libraryDependencies += "org.typelevel" % "cats-kernel_2.11" % "0.7.2"
+libraryDependencies += "org.typelevel" % "cats-core_2.11" % "1.0.0-MF"
+libraryDependencies += "org.typelevel" % "cats-macros_2.11" % "1.0.0-MF"
+libraryDependencies += "org.typelevel" % "cats-kernel_2.11" % "1.0.0-MF"
 libraryDependencies += "com.roundeights" % "hasher_2.11" % "1.2.0"
 
 libraryDependencies += "org.pegdown" % "pegdown" % "1.0.2" % "test"
-libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.6" % "test"
-libraryDependencies += "org.scalacheck" %% "scalacheck" % "1.12.6" % "test"
-
+//libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.6" % "test"
+//libraryDependencies += "org.scalacheck" %% "scalacheck" % "1.13.4" % "test"
+// https://mvnrepository.com/artifact/org.typelevel/cats-laws_2.11
+libraryDependencies += "org.typelevel" % "cats-laws_2.11" % "1.0.0-MF" % "test"
+// https://mvnrepository.com/artifact/org.specs2/specs2-core_2.11
+libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.1"
