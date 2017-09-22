@@ -1,6 +1,6 @@
 package uk.camsw.bloom
 
-import uk.camsw.bloom.Hashable._
+import uk.camsw.bloom.Id._
 
 class BloomFilterSpec extends Spec {
 
@@ -8,7 +8,7 @@ class BloomFilterSpec extends Spec {
 
   val employee = Employee("Me", 43)
 
-  implicit val id: Hashable[Employee] = Hashable[Employee](_.id.toString)
+  implicit val id: Id[Employee] = Id[Employee](_.id.toString)
 
   describe("Bloom Filter") {
 

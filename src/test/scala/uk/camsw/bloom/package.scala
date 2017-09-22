@@ -13,7 +13,7 @@ package object bloom {
 
   val random = new Random()
   val emptyBitSet = BitSet()
-  def aBloomFilter[A, K](size: Int = 1000)(implicit vh: Hashable[A], kh: Hashable[K]) = BloomFilter[A, K](size, HashingAlgos)
+  def aBloomFilter[A, K](size: Int = 1000)(implicit vh: Id[A], kh: Id[K]) = BloomFilter[A, K](size, HashingAlgos)
 
   trait Spec extends FunSpec
     with Matchers
