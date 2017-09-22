@@ -2,7 +2,6 @@ package uk.camsw
 
 import com.roundeights.hasher.Algo
 import org.scalacheck.{Arbitrary, Gen}
-import org.scalatest.matchers.{MatchResult, Matcher}
 import org.scalatest.prop.{Checkers, GeneratorDrivenPropertyChecks}
 import org.scalatest.{FunSpec, Matchers, PropSpec}
 import uk.camsw.bloom.BloomFilter.HashingAlgos
@@ -14,7 +13,7 @@ package object bloom {
 
   val random = new Random()
   val emptyBitSet = BitSet()
-  def aBloomFilter[A](size: Int = 1000) = BloomFilter[A](size, HashingAlgos)
+  def aBloomFilter[A, K](size: Int = 1000)(implicit vh: Hashable[A], kh: Hashable[K]) = BloomFilter[A, K](size, HashingAlgos)
 
   trait Spec extends FunSpec
     with Matchers

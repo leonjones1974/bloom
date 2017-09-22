@@ -9,27 +9,27 @@ import uk.camsw.bloom.Implicits._
 
 import scala.collection.immutable.BitSet
 
-case class BloomFilter[A] private[bloom](
+case class BloomFilter[A, K] private[bloom](
                                              private[bloom] val fHash: Seq[String => Int],
-                                             private[bloom] val slots: BitSet = BitSet()) {
+                                             private[bloom] val slots: BitSet = BitSet())(implicit vh: Hashable[A], kh: Hashable[K]) {
 
-  def :+(obj: A)(implicit k: Key[A]): BloomFilter[A] = {
-    val key = k(obj)
+  def :+(obj: A): BloomFilter[A, K] = {
+    val key = vh(obj)
     copy(slots = fHash.foldLeft(slots)((bs, f) => bs |+| BitSet(f(key))))
   }
 
-  def find[B](key: B)(implicit k: Key[B]): Contains[B] = if (fHash.forall(hash => slots(hash(k(key))))) Possibly(key) else No
+  def find(key: K): Contains[K] = if (fHash.forall(hash => slots(hash(kh(key))))) Possibly(key) else No
 }
 
 object BloomFilter {
 
   val HashingAlgos = Set(md5, crc32, sha1)
 
-  def apply[A](size: Int, algos: Set[Algo]): BloomFilter[A] = {
+  def apply[A, K](size: Int, algos: Set[Algo])(implicit vh: Hashable[A], kh: Hashable[K]): BloomFilter[A, K] = {
     require(size > 0, "Size must be greater than zero")
 
     val fHash = algos.map(algo => boundedHash(algo, 0 until size))
-    new BloomFilter[A](fHash.toSeq)
+    new BloomFilter[A, K](fHash.toSeq)
   }
 }
 

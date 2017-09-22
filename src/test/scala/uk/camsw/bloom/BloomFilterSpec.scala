@@ -1,6 +1,6 @@
 package uk.camsw.bloom
 
-import uk.camsw.bloom.Key._
+import uk.camsw.bloom.Hashable._
 
 class BloomFilterSpec extends Spec {
 
@@ -8,22 +8,22 @@ class BloomFilterSpec extends Spec {
 
   val employee = Employee("Me", 43)
 
-  implicit val id: Key[Employee] = Key[Employee](_.id.toString)
+  implicit val id: Hashable[Employee] = Hashable[Employee](_.id.toString)
 
   describe("Bloom Filter") {
 
     it("returns a possibly when a key might exist") {
-      val f = aBloomFilter() :+ employee
-      f.find(employee.id) shouldBe Possibly(employee.id)
+      val f = aBloomFilter[Employee, Int]() :+ employee
+      f find employee.id shouldBe Possibly(employee.id)
     }
 
     it("the key can be a string") {
-      val f = aBloomFilter[String]() :+ "abc"
-      f.find("abc") shouldBe Possibly("abc")
+      val f = aBloomFilter[String, String]() :+ "abc"
+      f find "abc" shouldBe Possibly("abc")
     }
 
     it("returns no when a key definitely does not exit") {
-      aBloomFilter[String]().find(123) shouldBe No
+      aBloomFilter[String, Int]() find 123 shouldBe No
     }
   }
 }
